@@ -1,0 +1,70 @@
+services:
+  postgres:
+    container_name: ms_pg_sql
+    image: postgres
+    environment:
+      POSTGRES_USER: web
+      POSTGRES_PASSWORD: webuser  # Fixed typo: "PASSWPRD" to "PASSWORD"
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - microservices-net
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: ms_pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}  # Fixed typo: "PASSWPRD" to "PASSWORD"
+      PGADMIN_CONFIG_SERVER_MODE: 'False'  # Fixed typo: "SERVCER" to "SERVER"
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - 5050:80
+    networks:
+      - microservices-net
+    restart: unless-stopped
+
+  mongo:
+    container_name: ms_mongo_db
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo:/data
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=web
+      - MONGO_INITDB_ROOT_PASSWORD=webuser
+    
+  mongo-express:
+    container_name: ms_mongo_express
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=web
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=webuser
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=web
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=webuser
+      - ME_CONFIG_MONGODB_SERVER=mongo  # Fixed the reference from "mongodb" to "mongo" (service name)
+
+  mail-dev:
+    container_name: ms_mail_dev
+    image: maildev/maildev
+    ports:
+      - 1080:1080
+      - 1025:1025
+
+networks:
+  microservices-net:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
+  mongo:
