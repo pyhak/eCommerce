@@ -1,0 +1,9 @@
+package com.saintcompany.ecommerce.customer;
+
+public record CustomerResponse (
+    String id,
+    String firstname,
+    String Lastname,
+    String email,
+    Address address
+) {}

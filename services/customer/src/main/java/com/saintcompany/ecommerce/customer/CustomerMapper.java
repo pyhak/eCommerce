@@ -18,4 +18,8 @@ public class CustomerMapper {
         .build();
     }
 
+    public CustomerResponse fromCustomer(Customer customer) {
+        return new CustomerResponse(customer.getId(), customer.getFirstname(), customer.getLastname(), customer.getEmail(), customer.getAddress());
+    }
+
 }

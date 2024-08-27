@@ -1,5 +1,8 @@
 package com.saintcompany.ecommerce.customer;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.saintcompany.exception.CustomerNotFoundException;
@@ -36,5 +39,26 @@ public class CustomerService {
         if (request.address() != null) {
             customer.setAddress(request.address());
         }
+    }
+    
+    public List<CustomerResponse> findAllCustomers() {
+        return repository.findAll()
+            .stream()
+            .map(mapper::fromCustomer)
+            .collect(Collectors.toList());
+    }
+
+    public boolean existsById(String customerId) {
+        return repository.findById(customerId).isPresent();
+    }
+
+    public CustomerResponse findById(String customerId) {
+        return repository.findById(customerId)
+        .map(mapper::fromCustomer)
+        .orElseThrow(() -> new CustomerNotFoundException(String.format("Customer not found by Id: %s", customerId)));
+    }
+
+    public void deleteCustomer(String customerId) {
+        repository.deleteById(customerId);
     }
 }
