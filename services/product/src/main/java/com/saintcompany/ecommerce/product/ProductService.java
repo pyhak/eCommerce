@@ -1,4 +1,4 @@
-package com.saintcompany.product;
+package com.saintcompany.ecommerce.product;
 
 import java.util.ArrayList;
 import java.util.Comparator;

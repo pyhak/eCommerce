@@ -2,7 +2,7 @@ package com.saintcompany.ecommerce.category;
 
 import java.util.List;
 
-import com.saintcompany.product.Product;
+import com.saintcompany.ecommerce.product.Product;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -28,6 +28,6 @@ public class Category {
     private Integer id;
     private String Name;
     private String description;
-    @OneToMany(mappedBy = "category_id", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
     private List<Product> products;
 }

@@ -17,33 +17,31 @@ import jakarta.persistence.EntityNotFoundException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String>  handle(EntityNotFoundException exp) {
+    public ResponseEntity<String> handle(EntityNotFoundException exp) {
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
             .body(exp.getMessage());
     }
 
     @ExceptionHandler(ProductPurchaseException.class)
-    public ResponseEntity<String>  handle(ProductPurchaseException exp) {
+    public ResponseEntity<String> handle(ProductPurchaseException exp) {
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
             .body(exp.getMessage());
     }
 
-    @ExceptionHandler(ProductPurchaseException.class)
-    public ResponseEntity<ErrorResponse>  handle(MethodArgumentNotValidException exp) {
-
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handle(MethodArgumentNotValidException exp) {
         var errors = new HashMap<String, String>();
         exp.getBindingResult().getAllErrors()
-        .forEach(error -> {
-            var fieldName = ((FieldError)error).getField();
-            var errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
+            .forEach(error -> {
+                var fieldName = ((FieldError) error).getField();
+                var errorMessage = error.getDefaultMessage();
+                errors.put(fieldName, errorMessage);
+            });
 
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
             .body(new ErrorResponse(errors));
     }
-
 }

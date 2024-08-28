@@ -15,14 +15,14 @@ import com.saintcompany.exception.CustomerNotFoundException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomerNotFoundException.class)
-    public ResponseEntity<String>  handle(CustomerNotFoundException exp) {
+    public ResponseEntity<String> handle(CustomerNotFoundException exp) {
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
             .body(exp.getMsg());
     }
 
-    @ExceptionHandler(CustomerNotFoundException.class)
-    public ResponseEntity<ErrorResponse>  handle(MethodArgumentNotValidException exp) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handle(MethodArgumentNotValidException exp) {
 
         var errors = new HashMap<String, String>();
         exp.getBindingResult().getAllErrors()
