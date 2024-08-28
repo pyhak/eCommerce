@@ -1,4 +1,4 @@
-package com.saintcompany.product;
+package com.saintcompany.ecommerce;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

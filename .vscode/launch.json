@@ -2,6 +2,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ProductApplication",
+            "request": "launch",
+            "mainClass": "com.saintcompany.ecommerce.ProductApplication",
+            "projectName": "product"
+        },
+        {
+            "type": "java",
+            "name": "ConfigServerApplication",
+            "request": "launch",
+            "mainClass": "com.saintcompany.configserver.ConfigServerApplication",
+            "projectName": "config-server"
+        },
+        {
+            "type": "java",
+            "name": "ProductApplication",
+            "request": "launch",
+            "mainClass": "com.saintcompany.product.ProductApplication",
+            "projectName": "product"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-CustomerApplication<customer>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
