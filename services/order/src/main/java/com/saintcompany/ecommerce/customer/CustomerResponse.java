@@ -1,5 +1,10 @@
 package com.saintcompany.ecommerce.customer;
 
-public class CustomerResponse {
+public record CustomerResponse(
+    String id,
+    String firstname,
+    String lastname,
+    String email
+) {
 
 }
