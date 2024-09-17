@@ -12,6 +12,8 @@ import com.saintcompany.ecommerce.kafka.OrderConfirmation;
 import com.saintcompany.ecommerce.kafka.OrderProducer;
 import com.saintcompany.ecommerce.orderline.OrderLineRequest;
 import com.saintcompany.ecommerce.orderline.OrderLineService;
+import com.saintcompany.ecommerce.payment.PaymentClient;
+import com.saintcompany.ecommerce.payment.PaymentRequest;
 import com.saintcompany.ecommerce.product.ProductClient;
 import com.saintcompany.ecommerce.product.PurchaseRequest;
 
@@ -28,6 +30,7 @@ public class OrderService {
     private final OrderMapper mapper;
     private final OrderLineService orderLineService;
     private final OrderProducer orderProducer;
+    private final PaymentClient paymentClient;
 
     public Integer createOrder(OrderRequest request) {
         // check customer --> Openfeign
@@ -53,7 +56,14 @@ public class OrderService {
         }
 
         //todo start payment process
+        var paymentRequest = new PaymentRequest(
+            request.amount(), 
+            request.paymentMethod(), 
+            order.getId(), 
+            order.getReference(), 
+            customer);
 
+        paymentClient.requestOrderPayment(paymentRequest);
 
         // send the order confirmation --> notification-ms (kafka)
         orderProducer.sendOrderConfirmation(
